@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: crypto-price-service-loadbalancer
+spec:
+  selector:
+    app: crypto-price
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer

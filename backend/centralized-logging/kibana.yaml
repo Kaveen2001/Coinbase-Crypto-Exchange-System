@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana-logging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kibana-logging
+  template:
+    metadata:
+      labels:
+        app: kibana-logging
+    spec:
+      containers:
+        - name: kibana
+          image: docker.elastic.co/kibana/kibana:7.10.0
+          ports:
+            - containerPort: 5601

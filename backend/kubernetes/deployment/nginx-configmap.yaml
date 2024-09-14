@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  nginx.conf: |
+    server {
+        listen 80;
+
+        location /account/ {
+            proxy_pass http://account-service;
+        }
+
+        location /trade/ {
+            proxy_pass http://trading-service;
+        }
+
+        location /wallet/ {
+            proxy_pass http://wallet-service;
+        }
+
+        location /notify/ {
+            proxy_pass http://notification-service;
+        }
+    }

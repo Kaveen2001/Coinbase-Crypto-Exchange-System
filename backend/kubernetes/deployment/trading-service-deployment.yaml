@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trading-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: trading-service
+  template:
+    metadata:
+      labels:
+        app: trading-service
+    spec:
+      containers:
+        - name: trading-service
+          image: trading-service:latest
+          ports:
+            - containerPort: 5002
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          env:
+            - name: FLASK_ENV
+              value: "production"

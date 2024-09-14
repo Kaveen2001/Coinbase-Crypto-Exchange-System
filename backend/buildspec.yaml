@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Installing dependencies"
+  pre_build:
+    commands:
+      - echo "Logging in to Amazon ECR..."
+      - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 533267348007.dkr.ecr.ap-southeast-1.amazonaws.com
+  build:
+    commands:
+      - echo "Building the Docker image..."
+      - docker build -t coinbase-crypto-exchange .
+      - docker tag coinbase-crypto-exchange:latest 533267348007.dkr.ecr.ap-southeast-1.amazonaws.com/coinbase-crypto-exchange:latest
+  post_build:
+    commands:
+      - echo "Pushing the Docker image to ECR..."
+      - docker push 533267348007.dkr.ecr.ap-southeast-1.amazonaws.com/coinbase-crypto-exchange:latest
+      - echo Writing image definitions file...
+      - printf '[{"name":"coinbase-crypto-exchange","imageUri":"%s"}]' 533267348007.dkr.ecr.ap-southeast-1.amazonaws.com/coinbase-crypto-exchange:latest > imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json

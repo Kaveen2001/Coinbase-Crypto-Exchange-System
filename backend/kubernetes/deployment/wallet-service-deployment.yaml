@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wallet-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: wallet-service
+  template:
+    metadata:
+      labels:
+        app: wallet-service
+    spec:
+      containers:
+        - name: wallet-service
+          image: wallet-service:latest
+          ports:
+            - containerPort: 5003
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          env:
+            - name: FLASK_ENV
+              value: "production"
